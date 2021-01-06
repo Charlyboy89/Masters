@@ -1,0 +1,347 @@
+COTEDIVOIRE<- read.delim("C:/Users/HP/Desktop/research work2/COTE D' IVOIRE.txt", header=FALSE)
+names(COTEDIVOIRE)<-c("Time", "Stock")
+COTEDIVOIRE.logreturn<-diff(log(COTEDIVOIRE$Stock))
+COTEDIVOIRE.logreturn<-COTEDIVOIRE.logreturn*100
+View(COTEDIVOIRE.logreturn)
+library(fitdistrplus)
+library(MASS)
+library(survival)
+library(npsurv)
+library(lsei)
+########################################################################
+#1. Fitting the distribution of Cote D'Ivoire Stock data
+########################################################################
+#Fitting the Normal Distribution using the MLE
+########################################################################
+y.MLE<-fitdist(COTEDIVOIRE.logreturn, "norm", method="mle")
+summary(y.MLE)
+#2. Fitting the student-t Distribution using the MLE
+#######################################################################
+z.MLE<-fitdistr(COTEDIVOIRE.logreturn, "t")
+logLik(z.MLE)
+z.MLE
+hist(COTEDIVOIRE.logreturn, prob=TRUE, main="")
+curve(dnorm(x, y.MLE$estimate[1], y.MLE$estimate[2]), col="red", lwd=2, add=T)
+library(metRology)
+fit_good <- fitdist(COTEDIVOIRE.logreturn,"t.scaled",
+                    start=list(df=3,mean=mean(COTEDIVOIRE.logreturn),sd=sd(COTEDIVOIRE.logreturn)))
+fit_good
+summary(fit_good)
+qqplot(z.MLE)
+#Fitting the Generalized lambda distributions
+#######################################################################
+library(GLDEX)
+library(cluster)
+COTEDIVOIRE.FMKL.ML<-fun.RMFMKL.mm(COTEDIVOIRE.logreturn)
+#Fitting the Johnson's family of distributions
+#######################################################################
+library(SuppDists)
+params <- JohnsonFit(COTEDIVOIRE.logreturn)
+sJohnson(params)
+#Fitting the normal inverse gaussian distribution
+#######################################################################
+library(GeneralizedHsummaryyperbolic)
+nigfitCot<-nigFit(COTEDIVOIRE.logreturn)
+summary(nigfitCot)
+#Fitting the hyperbolic distribution
+#######################################################################
+hypercot<-hyperbFit(COTEDIVOIRE.logreturn)
+#Fitting a skewed-t distribution
+#######################################################################
+library(sn)
+cote.skewed<-st.mple(x=as.matrix(rep(1,length(COTEDIVOIRE.logreturn))), y=COTEDIVOIRE.logreturn, opt.method = "Nelder-Mead")
+cote.skewed
+#######################################################################
+EGYPT<- read.delim("C:/Users/HP/Desktop/research work2/EGYPT.txt", header=FALSE)
+names(EGYPT)<-c("Time", "Stock")
+EGYPT.logreturn<-diff(log(EGYPT$Stock))
+EGYPT.logreturn<-EGYPT.logreturn*100
+View(EGYPT.logreturn)
+########################################################################
+#1. Fitting the distribution of Egypt Stock data
+########################################################################
+#Fitting the Normal Distribution using the MLE
+########################################################################
+Egypt.MLE<-fitdist(EGYPT.logreturn, "norm", method="mle")
+summary(Egypt.MLE)
+#2. Fitting the student-t Distribution using the MLE
+#######################################################################
+Egypt.t<-fitdistr(EGYPT.logreturn, "t")
+logLik(Egypt.t)
+AIC(Egypt.t)
+BIC(Egypt.t)
+#Fitting the Generalized lambda distributions
+#######################################################################
+library(GLDEX)
+library(cluster)
+EGYPT.FMKL.ML<-fun.RMFMKL.ml(EGYPT.logreturn)
+EGYPT.FMKL.ML
+#Fitting the Johnson's family of distributions
+#######################################################################
+library(SuppDists)
+params.Egypt <- JohnsonFit(EGYPT.logreturn)
+sJohnson(params.Egypt)
+#Fitting the normal inverse gaussian distribution
+#######################################################################
+library(GeneralizedHyperbolic)
+nigfitEgypt<-nigFit(EGYPT.logreturn)
+summary(nigfitEgypt)
+#Fitting the hyperbolic distribution
+#######################################################################
+Egypt.hyper<-hyperbFit(EGYPT.logreturn)
+#Fitting a skewed-t distribution
+#######################################################################
+library(stats4)
+library(sn)
+Egypt.skewed<-st.mple(x=as.matrix(rep(1,length(EGYPT.logreturn))), y = EGYPT.logreturn, opt.method = "Nelder-Mead")
+y<-selm.fit(formula = EGYPT.logreturn ~ x, family = "ST", method="MLE")
+summary.selm(formula = EGYPT.logreturn ~ x, family = "ST", method="MLE")
+summary(y, param.type="DP") 
+#######################################################################
+NIGERIA<- read.delim("C:/Users/HP/Desktop/research work2/NIGERIA.txt", header=FALSE)
+names(NIGERIA)<-c("Time", "Stock")
+NIGERIA.logreturn<-diff(log(NIGERIA$Stock))
+NIGERIA.logreturn<-NIGERIA.logreturn*100
+View(NIGERIA.logreturn)
+########################################################################
+#1. Fitting the distribution of NIGERIA Stock data
+########################################################################
+#Fitting the Normal Distribution using the MLE
+########################################################################
+NIGERIA.MLE<-fitdist(NIGERIA.logreturn, "norm", method="mle")
+summary(NIGERIA.MLE)
+#2. Fitting the student-t Distribution using the MLE
+#######################################################################
+NIGERIA.t<-fitdistr(NIGERIA.logreturn, "t")
+logLik(NIGERIA.t)
+AIC(NIGERIA.t)
+BIC(NIGERIA.t)
+#Fitting the Generalized lambda distributions
+#######################################################################
+library(GLDEX)
+library(cluster)
+NIGERIA.FMKL.ML<-fun.RMFMKL.ml(NIGERIA.logreturn)
+NIGERIA.FMKL.ML
+#Fitting the Johnson's family of distributions
+#######################################################################
+library(SuppDists)
+params.Nigeria <- JohnsonFit(NIGERIA.logreturn)
+sJohnson(params.Nigeria)
+#Fitting the normal inverse gaussian distribution
+#######################################################################
+library(GeneralizedHyperbolic)
+nigfitNIGERIA<-nigFit(NIGERIA.logreturn)
+summary(nigfitNIGERIA)
+#Fitting the hyperbolic distribution
+#######################################################################
+Nigeria.hyper<-hyperbFit(NIGERIA.logreturn)
+#Fitting a skewed-t distribution
+#######################################################################
+library(sn)
+Nigeria.skewed<-st.mple(x=as.matrix(rep(1,length(NIGERIA.logreturn))), y = NIGERIA.logreturn, opt.method = "Nelder-Mead")
+Nigeria.skewed
+#######################################################################
+SA<- read.delim("C:/Users/HP/Desktop/research work2/SOUTH AFRICA.txt", header=FALSE)
+names(SA)<-c("Time", "Stock")
+SA.logreturn<-diff(log(SA$Stock))
+SA.logreturn<-SA.logreturn*100
+View(SA.logreturn)
+########################################################################
+#1. Fitting the distribution of SOUTH AFRICA Stock data
+########################################################################
+#Fitting the Normal Distribution using the MLE
+########################################################################
+SA.MLE<-fitdist(SA.logreturn, "norm", method="mle")
+summary(SA.MLE)
+#2. Fitting the student-t Distribution using the MLE
+#######################################################################
+SA.t<-fitdistr(SA.logreturn, "t")
+logLik(SA.t)
+AIC(SA.t)
+BIC(SA.t)
+#Fitting the Generalized lambda distributions
+#######################################################################
+library(GLDEX)
+library(cluster)
+SA.FMKL.ML<-fun.RMFMKL.ml(SA.logreturn)
+SA.FMKL.ML
+#Fitting the Johnson's family of distributions
+#######################################################################
+library(SuppDists)
+params.SA <- JohnsonFit(SA.logreturn)
+sJohnson(params.SA)
+#Fitting the normal inverse gaussian distribution
+#######################################################################
+library(GeneralizedHyperbolic)
+nigfitSA<-nigFit(SA.logreturn)
+summary(nigfitSA)
+#Fitting the hyperbolic distribution
+#######################################################################
+SA.hyper<-hyperbFit(SA.logreturn)
+#Fitting a skewed-t distribution
+#######################################################################
+library(sn)
+SA.skewed<-st.mple(x=as.matrix(rep(1,length(SA.logreturn))), y = SA.logreturn, opt.method = "Nelder-Mead")
+SA.skewed
+x = c(294, 177, 257, 301, 257, 267, 329, 177, 241, 315, 229, 239, 277, 250, 287, 281, 166, 229, 254, 232,290, 245, 245, 214, 272, 224, 215, 242, 186, 224)
+x = 2 * pi * NIGERIA.logreturn / 360 - pi
+mwrappedg("norm", data = NIGERIA.logreturn, starts = c(mean(NIGERIA.logreturn), 1), K = 100, method = "BFGS")
+#############################################################################################################################
+library(ggplot2)
+install.packages("ggfortify")
+library(ggfortify)
+p <- ggdistribution(dchisq, seq(0, 20, 0.1), df = 7, colour = 'blue')
+p <- ggdistribution(dchisq, seq(0, 20, 0.1), df = 9, colour = 'green', p = p)
+ggdistribution(dchisq, seq(0, 20, 0.1), df = 11, colour = 'red', p = p)
+################################################################################################################################3
+#Normal probability density plots
+windows()
+x <- seq(-4, 4, length=100)
+hx <- dnorm(x, 0, 0.8)
+colors = c("black", "red", "blue", "purple")
+labels = c(expression(paste(mu, "=", 0, "," , sigma, " = ", 0.8)), expression(paste(mu, "=", 0, "," , sigma, " = ", 1.0)), expression(paste(mu, "=", 0, "," , sigma, " = ", 2)), expression(paste(mu, "=", -2, "," , sigma, " = ", 0.5)))
+plot(x, hx, type="l", lty=2, xlab="x value", ylim=c(0,1),
+     ylab="Density", main="Probability density of a Normal Distribution")
+lines(x, dnorm(x, 0, 1), col= "red")
+lines(x, dnorm(x, 0, 2), col= "blue")
+lines(x, dnorm(x, -2, 0.5),  col= "purple")
+legend("topright", inset= 0.05, title="Distributions", lty=c(2,2,2,2), labels,  col=colors)
+#################################################################################################################################
+#Student t probability density plots
+windows()
+x <- seq(-4, 4, length=100)
+hx <- dt(x, 1)
+degf <- c(20, 8, 3, 1)
+colors <- c("red", "blue","darkgreen", "black")
+labels <- c("df=20", "df=8","df=3",  "df=1")
+plot(x, hx, type="l", lty=2, xlab="X", ylab="Density", ylim= c(0,1), main="Probability density of a t-distribution")
+for (i in 1:3){
+  lines(x, dt(x, degf[i]), lwd=2, col = colors[i])
+}
+legend("topright", inset = 0.05, labels, lwd=2, lty = c(1:3), col = colors)
+###################################################################################################################################
+#GLD probability density plots
+windows()
+x <- seq(-4, 4, length=100)
+hx <- dgld(x, lambda1=0, lambda2=-1, lambda3=-0.088, lambda4=-0.088)
+colors <- c("red", "blue", "black")
+labels = c(expression(paste(lambda,3, "=", -0.125, "," , lambda,4, " = ", -0.125)), expression(paste(lambda,3, "=", -0.200, "," , lambda,4, " = ", -0.200)), expression(paste(lambda,3, "=", -0.088, "," , lambda,4, " = ", -0.088)))
+plot(x, hx, type="l", xlab="X", ylab="Density", ylim= c(0,2), main="Probability density of a GLD")
+lines(x, dgld(x, lambda1=0, lambda2=-1, lambda3=-0.125, lambda4=-0.125), lwd=2, col = "red")
+lines(x, dgld(x, lambda1=0, lambda2=-1, lambda3=-0.200, lambda4=-0.2000), lwd=2, col = "blue")
+legend("topright", inset = 0.05, labels, col =  colors, title=expression(paste(lambda,1, "=", 0, "," , lambda,2, " = ", -1)))
+###########################################################################################################################################
+#NIG probability density plots
+windows()
+x <- seq(-4, 4, length=100)
+hx <- dnig(x, alpha = 4, beta=1, delta = 2, mu=0)
+colors <- c("black", "red", "blue")
+labels = c(expression(paste(alpha, "=", 4, "," , beta, " = ", 1, ",", delta, "=", 1, "," , mu, " = ", 0)), expression(paste(alpha, "=", 4, "," , beta, " = ", 2,",", delta, "=", 1, "," , mu, " = ", 0)), expression(paste(alpha, "=", 4, "," , beta, " = ", 3,",", delta, "=", 1, "," , mu, " = ", 0)))
+plot(x, hx, type="l", xlab="X", ylab="Density", ylim= c(0,1), main="Density function of an NIG")
+lines(x, dnig(x, alpha = 4, beta=2, delta = 1, mu=0), lwd=2, col = "red")
+lines(x, dnig(x, alpha = 4, beta=3, delta = 1, mu=0), lwd=2, col = "blue")
+legend("topright", inset = 0.05, labels, col =  colors, lty=c(1,2,3))
+#####################################################################################################################################################
+#hYP density plots
+windows()
+x <- seq(-4, 4, length=100)
+hx <- dhyp(x, alpha = 4, beta=1, delta = 1, mu=0)
+colors <- c("black", "red", "blue")
+labels = c(expression(paste(alpha, "=", 4, "," , beta, " = ", 1, ",", delta, "=", 1, "," , mu, " = ", 0)), expression(paste(alpha, "=", 4, "," , beta, " = ", 2,",", delta, "=", 1, "," , mu, " = ", 0)), expression(paste(alpha, "=", 4, "," , beta, " = ", 3,",", delta, "=", 1, "," , mu, " = ", 0)))
+plot(x, hx, type="l", xlab="X", ylab="Density", ylim= c(0,1), main="Density function of an HYP")
+lines(x, dhyp(x, alpha = 4, beta=2, delta = 1, mu=0), lwd=2, col = "red")
+lines(x, dhyp(x, alpha = 4, beta=3, delta = 1, mu=0), lwd=2, col = "blue")
+legend("topright", inset = 0.05, labels, col =  colors, lty=c(1,2,3))
+###############################################################################################################################
+#Skewed dst density plots
+windows()
+x <- seq(-4, 4, length=100)
+hx <- dst(x, xi = 0, omega=1, alpha = 0, nu=2)
+colors <- c("black", "red", "blue")
+labels = c(expression(paste(xi, "=", 0, "," , omega, " = ", 1, ",", alpha, "=", 0, "," , nu, " = ", 2)), expression(paste(xi, "=", 0, "," , omega, " = ", 1, ",", alpha, "=", 2, "," , nu, " = ", 10)), expression(paste(xi, "=", 0, "," , omega, " = ", 1, ",", alpha, "=", 4, "," , nu, " = ", 20)))
+plot(x, hx, type="l", xlab="X", ylab="Density", ylim= c(0,1), main="Density function of the Skewed t-distribution")
+lines(x, dst(x,  xi = 0, omega=1, alpha = 2, nu=10), lwd=2, col = "red")
+lines(x, dst(x,  xi = 0, omega=1, alpha = 4, nu=20), lwd=2, col = "blue")
+legend("topright", inset = 0.05, labels, col =  colors, lty=c(1,2,3))
+########################################################################################################################
+library( GeneralizedHyperbolic)
+?qqnig(EGYPT.logreturn, param = c(0.09072, 1.13393, 0.43015, -0.01521), line=TRUE)
+qqhyperb(SA.logreturn*100, param = c(0.11870, 0.96055, 0.71183, -0.05699), line=TRUE)
+install.packages("EnvStats")
+library(EnvStats)
+windows()
+chart.QQPlot(COTEDIVOIRE.logreturn*2, distribution = "st", distributionParameter = 'xi=-0.005924, omega=0.260200, alpha=0.0377, nu=1.340100', line= 'quartiles')
+chart.QQPlot(EGYPT.logreturn, distribution = "st", distributionParameter = 'xi=0.13087, omega=1.02502, alpha=-0.06313, nu=2.97963', line= 'quartiles')
+install.packages("segMGarch")
+library(segMGarch)
+library(Risk)
+varg("hyp", 0.9, df=2.1333)
+
+x<-qnorm(0.95, mean=0.013773, sd=0.907277)
+length(COTEDIVOIRE.logreturn)
+kupiec(COTEDIVOIRE.logreturn, rep(-1.236,5203), 0.05, verbose = TRUE, test = "PoF")
+w=rep(1/pw.CCC.obj@d,pw.CCC.obj@d) #an equally weighted portfolio
+VaR = quantile(t(pw.CCC.obj@y[,1:899])%*%w,0.05)
+ts.plot(y_out_of_sample%*%w,ylab="portfolio return");abline(h=VaR,col="red")
+kupiec(COTEDIVOIRE.logreturn,rep(x, 5203),.95,verbose=TRUE,test="PoF")
+qnorm(0.95, mean=-0.0433, sd=1.8197)
+qt(0.1,df=3)
+install.packages("dist.Student.t")
+qst(0.95, mu=-0.0433, sigma=0.01105, nu=3, lower.tail=TRUE, log.p=TRUE)
+library(GeneralizedHyperbolic)
+#######################################################################################################################################
+#VaRnorm values for Cote d'Ivoire
+pl<- c(0.1, 0.05, 0.02, 0.01, 0.005, 0.001)
+ps <- c(0.9, 0.95, 0.98, 0.99, 0.995, 0.999)
+qnorm(pl, mean=0.013773, sd= 0.907277)
+qnorm(ps, mean=0.013773, sd= 0.907277)
+#VaRnorm values for Egypt
+qnorm(pl, mean=0.050556, sd= 1.626844)
+qnorm(ps, mean=0.050556, sd= 1.626844)
+#VaRnorm values for Nigeria
+qnorm(pl, mean=0.038687, sd= 1.276521)
+qnorm(ps, mean=0.038687, sd= 1.276521)
+#VaRnorm values for South Africa
+qnorm(pl, mean=0.041429, sd= 1.176274)
+qnorm(ps, mean=0.041429, sd= 1.176274)
+#############################################################################################################################
+#VaR-student t distribution for Cote d'Ivoire
+qst(pl, mu=0.001723, sigma=0.260075, nu=1.339881, lower.tail=TRUE, log.p=FALSE)
+qst(ps, mu=0.001723, sigma=0.260075, nu=1.339881, lower.tail=TRUE, log.p=FALSE)
+#############################################################################################################################
+library(Dowd)
+tVaR(mu=0.0017, sigma=0.260, df= 2, cl=0.1, hp=61)
+tVaR(mu = .012, sigma = .03, df = 6, cl = .9, hp = 61)
+library(tseries)
+adf.test(COTEDIVOIRE.logreturn)
+adf.test(EGYPT.logreturn)
+adf.test(NIGERIA.logreturn)
+adf.test(SA.logreturn)
+###############################################################################################################################
+library(e1071)
+myfun<- function(a){
+  samplesize <-length(a);  minimum <- min(a)
+  maximum <- max(a)
+  average <- mean(a)
+  variance <- var(a)
+  std <- sd(a)
+  skew <- skewness(a)
+  kurt <- kurtosis(a)
+  cat(n=samplesize, mean=average, min = minimum, max = maximum, var = variance, stdev= std, skewness= skew, kurtosis= kurt)
+  }
+myfun(x); myfun(x)
+z<-list(EGYPT.logreturn, SA.logreturn)
+for (i in z){
+  d <- myfun(i)
+  print(d)
+}
+library(GeneralizedHyperbolic)
+windows()
+x <- seq(-4, 4, length=100)
+hx <- dhyp(x, alpha = 4, beta=1, delta = 1, mu=0)
+colors <- c("black", "red", "blue")
+labels = c(expression(paste(alpha, "=", 4, "," , beta, " = ", 1, ",", delta, "=", 1, "," , mu, " = ", 0)), expression(paste(alpha, "=", 4, "," , beta, " = ", 2,",", delta, "=", 1, "," , mu, " = ", 0)), expression(paste(alpha, "=", 4, "," , beta, " = ", 3,",", delta, "=", 1, "," , mu, " = ", 0)))
+plot(x, hx, type="l", xlab="X", ylab="Density", ylim= c(0,1), main="Density function of an HYP")
+lines(x, dhyp(x, alpha = 4, beta=2, delta = 1, mu=0), lwd=2, col = "red")
+lines(x, dhyp(x, alpha = 4, beta=3, delta = 1, mu=0), lwd=2, col = "blue")
+legend("topright", inset = 0.05, labels, col =  colors, lty=c(1,2,3))
